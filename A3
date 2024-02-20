@@ -1,0 +1,43 @@
+#CODE TO GENERATE HISTOGRAMS FOR N NUMBERS IN THE HAT
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng()
+
+HAT = 2024
+
+def final_piece():
+    hat = list(range(1, HAT+1))
+
+    while len(hat) > 1:
+        piece1 = rng.choice(hat)
+        hat.remove(piece1)
+        piece2 = rng.choice(hat)
+        hat.remove(piece2)
+
+        difference = abs(piece1 - piece2)
+        hat.append(difference)
+
+    return hat[0]
+    
+samples = 10000
+
+final_pieces = [final_piece() for _ in range(samples)]
+
+bins = np.arange(0, HAT+2)-0.5
+
+fig, ax = plt.subplots(1,1)
+
+Data, _ , _ = ax.hist(final_pieces, bins, density=True, rwidth=0.8, color='skyblue')
+ax.set_xlim(-1, HAT+1)
+ax.set_xticks(np.arange(0, HAT+1))
+ax.set_xlabel('Final Piece Number')
+ax.set_ylabel('Frequency')
+plt.grid('on')
+even_ticks = range(0, HAT+1, 200)
+plt.xticks(even_ticks)
+plt.tight_layout()
+plt.show()
+
+Data
